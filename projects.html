@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Kgaugelo Mphelo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── PROJECTS PAGE SPECIFIC ── */
+
+.page-hero {
+  padding: 80px 10vw 60px;
+  border-bottom: 1px solid var(--border);
+  max-width: none;
+}
+.page-hero-inner { max-width: 1100px; margin: 0 auto; }
+
+.ph-eyebrow { font-size:12px; color:var(--muted); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.ph-eyebrow::before { content:'$'; color:var(--pink); font-weight:700; }
+
+.ph-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700; letter-spacing: -0.025em;
+  color: var(--white); line-height: 1.1;
+}
+.ph-title em { font-style:normal; color:var(--pink); }
+.ph-sub { font-size:13px; color:var(--muted); margin-top:0.75rem; max-width:600px; line-height:1.8; }
+
+.filter-bar {
+  display: flex; gap:8px; flex-wrap:wrap;
+  margin-top: 1.5rem;
+}
+.filter-btn {
+  font-family: var(--font);
+  font-size: 11.5px; padding: 5px 14px;
+  border-radius: 20px; cursor: pointer;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.filter-btn:hover, .filter-btn.on {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: var(--pink-muted);
+}
+
+/* PROJECT DETAIL CARDS */
+.proj-section {
+  padding: 70px 10vw;
+  border-bottom: 1px solid var(--border);
+  max-width: none;
+}
+.proj-section:last-of-type { border-bottom: none; }
+.proj-inner { max-width: 1100px; margin: 0 auto; }
+
+.proj-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border);
+}
+
+.ph-num {
+  background: var(--pink);
+  width: 80px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.5rem 0;
+  flex-shrink: 0;
+}
+.ph-num-txt { font-size: 2rem; font-weight: 700; color: #fff; line-height:1; }
+.ph-num-lbl { font-size: 9px; color: rgba(255,255,255,0.7); letter-spacing: 0.08em; text-transform:uppercase; margin-top:4px; }
+
+.ph-num.pu { background: var(--purple); }
+.ph-num.bl { background: var(--blue); }
+.ph-num.rd { background: var(--red); }
+.ph-num.am { background: var(--amber); }
+.ph-num.fa { background: var(--faint); }
+
+.ph-info {
+  background: var(--card2);
+  padding: 1.25rem 1.5rem;
+}
+.ph-info-top { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:6px; }
+.ph-name { font-size: 1.2rem; font-weight: 700; color: var(--white); }
+.ph-pill {
+  font-size: 10px; padding: 3px 10px; border-radius: 20px;
+  font-weight: 700; letter-spacing: 0.05em; text-transform:uppercase; border:1px solid;
+  flex-shrink: 0; align-self: flex-start; margin-top: 2px;
+}
+.pill-pk { color:var(--pink);   background:var(--pink-muted);   border-color:rgba(255,45,120,0.3); }
+.pill-rd { color:var(--red);    background:var(--red-muted);    border-color:rgba(255,83,112,0.3); }
+.pill-pu { color:var(--purple); background:var(--purple-muted); border-color:rgba(198,120,221,0.3); }
+.pill-bl { color:var(--blue);   background:var(--blue-muted);   border-color:rgba(0,180,255,0.3); }
+.pill-mu { color:var(--muted);  background:rgba(139,148,158,0.1); border-color:rgba(139,148,158,0.2); }
+.pill-am { color:var(--amber);  background:var(--amber-muted);  border-color:rgba(240,160,80,0.3); }
+
+.ph-subtitle { font-size:12.5px; color:var(--muted); margin-bottom:10px; line-height:1.6; }
+.ph-tags-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.ph-tag {
+  font-size:10.5px; color:var(--muted);
+  background:var(--card); border:1px solid var(--border);
+  border-radius:4px; padding:2px 8px;
+}
+
+/* PARL BADGE */
+.parl-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11px; color:var(--amber);
+  background:var(--amber-muted);
+  border:1px solid rgba(240,160,80,0.3);
+  border-radius:5px; padding:6px 12px;
+  margin-bottom: 1.5rem;
+}
+
+/* DETAIL SECTIONS */
+.detail-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;
+  margin-bottom:1.25rem;
+}
+@media(max-width:720px){ .detail-grid{ grid-template-columns:1fr; } }
+
+.detail-full { margin-bottom: 1.25rem; }
+
+.d-block {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:1.1rem 1.3rem;
+}
+.d-label {
+  font-size:10.5px; color:var(--pink); font-weight:700;
+  letter-spacing:0.06em; text-transform:uppercase;
+  margin-bottom:0.75rem;
+  display:flex; align-items:center; gap:6px;
+}
+.d-label::before { content:'//'; color:var(--faint); font-weight:400; }
+
+.d-para {
+  font-size:12.5px; color:var(--muted); line-height:1.85;
+}
+.d-para + .d-para { margin-top:0.65rem; }
+
+.d-kv { display:grid; grid-template-columns:140px 1fr; gap:3px 10px; padding:3px 0; font-size:12px; align-items:start; }
+.d-key { color:var(--blue); flex-shrink:0; }
+.d-val { color:var(--white); line-height:1.5; }
+
+.d-ul { list-style:none; padding:0; margin:0; }
+.d-ul li {
+  font-size:12px; color:var(--muted); line-height:1.75;
+  padding:2px 0 2px 14px; position:relative;
+}
+.d-ul li::before { content:'→'; position:absolute; left:0; color:var(--pink); font-size:10px; top:4px; }
+
+.d-table { width:100%; border-collapse:collapse; font-size:12px; }
+.d-table th {
+  text-align:left; padding:7px 10px;
+  background:var(--card); color:var(--pink);
+  font-weight:600; font-size:10.5px; letter-spacing:0.04em;
+  border-bottom:1px solid var(--border);
+}
+.d-table td { padding:6px 10px; color:var(--muted); border-bottom:1px solid var(--border); vertical-align:top; line-height:1.6; }
+.d-table tr:last-child td { border-bottom:none; }
+.d-table tr:nth-child(even) td { background:rgba(255,255,255,0.02); }
+.d-table td:first-child { color:var(--blue); white-space:nowrap; }
+
+.reflection-block {
+  background: linear-gradient(135deg, rgba(255,45,120,0.06) 0%, rgba(0,0,0,0) 60%);
+  border:1px solid rgba(255,45,120,0.2);
+  border-radius:8px; padding:1.1rem 1.3rem;
+}
+.reflection-block .d-label { color:var(--pink-soft); }
+
+.proj-link-row {
+  display:flex; gap:12px; flex-wrap:wrap;
+  margin-top:1.5rem; padding-top:1.5rem;
+  border-top:1px solid var(--border);
+}
+
+/* CTF PENDING */
+.pending-block {
+  background:var(--card2); border:2px dashed var(--border2);
+  border-radius:8px; padding:2rem;
+  text-align:center; color:var(--muted);
+}
+.pending-block .p-icon { font-size:2.5rem; margin-bottom:1rem; }
+.pending-block .p-title { font-size:1rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+.pending-block .p-txt { font-size:12.5px; line-height:1.8; }
+</style>
+</head>
+<body>
+
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <span class="nav-prompt">kgaugelo@portfolio:~/projects$</span>
+  <div class="nav-links">
+    <a href="index.html">home</a>
+    <a href="projects.html" class="active">projects</a>
+    <a href="resume.html">resume</a>
+  </div>
+  <div class="nav-right">
+    <div class="status-dot" aria-hidden="true"></div>
+    <span class="status-text">open to opportunities</span>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="ph-eyebrow">ls -la ~/projects/ --sort=impact --verbose</div>
+      <h1 class="ph-title">Project <em>Showcase</em></h1>
+      <p class="ph-sub">7 projects spanning cybersecurity tooling, cross-platform clinical systems, AI integration, full-stack Java EE, and offline constraint engineering. Full technical documentation available.</p>
+      <div class="filter-bar" role="group" aria-label="Filter projects by category">
+        <button class="filter-btn on" data-filter="all" onclick="setFilter('all',this)">all (7)</button>
+        <button class="filter-btn" data-filter="security" onclick="setFilter('security',this)">cybersecurity</button>
+        <button class="filter-btn" data-filter="fullstack" onclick="setFilter('fullstack',this)">full stack</button>
+        <button class="filter-btn" data-filter="ai" onclick="setFilter('ai',this)">AI</button>
+        <button class="filter-btn" data-filter="academic" onclick="setFilter('academic',this)">academic</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 01 — UL OPTOMETRY ══════════════════════════ -->
+  <div class="proj-section" id="optometry" data-cats="fullstack security academic">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num">
+          <div class="ph-num-txt">01</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">UL Optometry Clinic Management System</div>
+            <span class="ph-pill pill-pk">★ Flagship</span>
+          </div>
+          <div class="ph-subtitle">Cross-platform clinical management system for the University of Limpopo's Optometry Department — Cyber6ix team, LDIL Final Project</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">C# · .NET MAUI</span>
+            <span class="ph-tag">Supabase</span>
+            <span class="ph-tag">PostgreSQL</span>
+            <span class="ph-tag">MVVM</span>
+            <span class="ph-tag">RBAC</span>
+            <span class="ph-tag">Row-Level Security</span>
+            <span class="ph-tag">JWT Auth</span>
+            <span class="ph-tag">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="parl-badge">
+        ★ Presented to the Parliamentary Portfolio Committee on Communications &amp; Digital Technologies · April 2026
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Overview</div>
+          <p class="d-para">A fully digitalised clinical management platform replacing a paper-based workflow at UL's Optometry teaching clinic. Four user roles — Patient, Student, Supervisor, Admin — each with isolated role shells, dedicated dashboards and enforced data boundaries at the database layer.</p>
+          <p class="d-para">Developed by the Cyber6ix team as the LDIL final project, it was presented to the Parliamentary Portfolio Committee on Communications and Digital Technologies in April 2026 — stakeholder validation at the highest institutional level in South Africa.</p>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Tech Stack</div>
+          <div class="d-kv"><span class="d-key">Frontend</span><span class="d-val">.NET MAUI (C#) — cross-platform: Android, iOS, Windows, macOS</span></div>
+          <div class="d-kv"><span class="d-key">Backend</span><span class="d-val">Supabase (PostgreSQL + PostgREST API + Realtime)</span></div>
+          <div class="d-kv"><span class="d-key">Architecture</span><span class="d-val">MVVM + Service Layer (CommunityToolkit.Mvvm)</span></div>
+          <div class="d-kv"><span class="d-key">Auth</span><span class="d-val">Supabase Auth — JWT (30-min expiry) + refresh tokens</span></div>
+          <div class="d-kv"><span class="d-key">Security</span><span class="d-val">PostgreSQL Row-Level Security — data isolation at DB layer</span></div>
+          <div class="d-kv"><span class="d-key">CI/CD</span><span class="d-val">GitHub Actions multi-platform build pipeline</span></div>
+        </div>
+      </div>
+
+      <div class="detail-full">
+        <div class="d-block">
+          <div class="d-label">Architecture — 4-Tier MVVM + Service Layer</div>
+          <table class="d-table">
+            <thead><tr><th>Layer</th><th>Technology</th><th>Responsibility</th></tr></thead>
+            <tbody>
+              <tr><td>Views</td><td>XAML (.NET MAUI)</td><td>Role-specific screens — Admin, Student, Supervisor, Patient shells</td></tr>
+              <tr><td>ViewModels</td><td>MVVM Toolkit</td><td>ObservableProperty + RelayCommand — UI state, no business logic</td></tr>
+              <tr><td>Services (×14)</td><td>C# interfaces + implementations</td><td>AuthService, BookingService, EncounterService, ReviewService, PoeService, NotificationService, AuditService, ReportService, SchedulingService…</td></tr>
+              <tr><td>Data</td><td>Supabase PostgREST → PostgreSQL</td><td>15 core tables, RLS policies per role, real-time subscriptions</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Key Features</div>
+          <ul class="d-ul">
+            <li>6-stage booking state machine: Patient books → Auto-confirm → Student accepts → Admin assigns supervisor → Encounter filled → Supervisor signs off</li>
+            <li>6-step clinical encounter wizard — VA, Refraction, NPC, Cover Test, Anterior/Posterior Segment, Reflection, Supervisor review</li>
+            <li>Portfolio of Evidence (PoE) — 5 categories, 500 required hours, auto-credited per approved encounter</li>
+            <li>Notification routing — real-time push per role on every state change</li>
+            <li>Audit log — every user action timestamped and stored, HIPAA-equivalent handling</li>
+            <li>Blocked dates — admin-controlled calendar for clinic closures</li>
+          </ul>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Security Design</div>
+          <ul class="d-ul">
+            <li>PostgreSQL RLS — a compromised client token cannot read unauthorised rows, enforced at DB layer not application layer</li>
+            <li>JWT tokens (30-min expiry) + refresh token rotation</li>
+            <li>HIPAA-equivalent PII handling — patient data encrypted and audit-logged</li>
+            <li>Role-Based Access Control: Admin &gt; Supervisor &gt; Student &gt; Patient — enforced in both ViewModel guards and RLS policies</li>
+            <li>Input validation on all encounter form fields before submission</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="reflection-block detail-full">
+        <div class="d-label">Reflections</div>
+        <ul class="d-ul">
+          <li>PostgreSQL RLS as the security boundary is architecturally superior to application-layer guards — even a fully compromised client cannot breach data isolation.</li>
+          <li>Designing four role shells simultaneously required strict interface segregation from the first commit — retrofitting it later would have been costly.</li>
+          <li>Presenting to the Parliamentary Portfolio Committee taught that a system's value must be argued in outcomes (patient safety, time saved) not architecture — a lesson that now shapes how I scope every project.</li>
+        </ul>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">LDIL Final Project · Samsung / University of Limpopo · 2025–2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 02 — TENDERSHIELD ══════════════════════════ -->
+  <div class="proj-section" id="tendershield" data-cats="security ai">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num rd">
+          <div class="ph-num-txt">02</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">TenderShield SA</div>
+            <span class="ph-pill pill-rd">Cybersecurity · AI</span>
+          </div>
+          <div class="ph-subtitle">AI-powered procurement fraud detection platform — itweb Security Summit Hackathon</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">React</span><span class="ph-tag">Claude Sonnet API</span>
+            <span class="ph-tag">Supabase</span><span class="ph-tag">Vercel</span>
+            <span class="ph-tag">Upstash Redis</span><span class="ph-tag">POPIA</span>
+            <span class="ph-tag">PFMA</span><span class="ph-tag">B-BBEE</span><span class="ph-tag">PPPFA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Overview</div>
+          <p class="d-para">TenderShield SA detects and flags fraudulent patterns in South African government procurement tenders. Built in the itweb Security Summit hackathon, it integrates the Claude Sonnet API for live AI fraud analysis against a curated SA regulatory knowledge base.</p>
+          <p class="d-para">South Africa loses billions annually to procurement fraud. TenderShield contextualises suspicious patterns against seven Acts and frameworks simultaneously — giving analysts actionable flagging with specific clause references.</p>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Regulatory Knowledge Base</div>
+          <div class="d-kv"><span class="d-key">PPPFA</span><span class="d-val">Preferential Procurement Policy Framework Act — scoring and preference points</span></div>
+          <div class="d-kv"><span class="d-key">PFMA</span><span class="d-val">Public Finance Management Act — national/provincial spending controls</span></div>
+          <div class="d-kv"><span class="d-key">MFMA</span><span class="d-val">Municipal Finance Management Act — municipal procurement governance</span></div>
+          <div class="d-kv"><span class="d-key">B-BBEE</span><span class="d-val">Broad-Based Black Economic Empowerment — transformation compliance</span></div>
+          <div class="d-kv"><span class="d-key">CIDB</span><span class="d-val">Construction Industry Development Board — contractor grading</span></div>
+          <div class="d-kv"><span class="d-key">CSD</span><span class="d-val">Central Supplier Database — vendor registration verification</span></div>
+          <div class="d-kv"><span class="d-key">POPIA</span><span class="d-val">Protection of Personal Information Act — data privacy</span></div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">AI Fraud Analysis Pipeline</div>
+          <ul class="d-ul">
+            <li>Vendor B-BBEE compliance and CSD registration verification</li>
+            <li>Price anomaly detection relative to market benchmarks — potential price-fixing signals</li>
+            <li>Sole-source justification validation against PPPFA thresholds</li>
+            <li>Related-party relationship detection between evaluators and bidders</li>
+            <li>Irregular award pattern detection — same vendor winning across departments</li>
+            <li>Risk score output: Low / Medium / High / Critical with clause references</li>
+          </ul>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Tech Stack</div>
+          <div class="d-kv"><span class="d-key">Frontend</span><span class="d-val">React — dark cybersecurity aesthetic, red/dark palette</span></div>
+          <div class="d-kv"><span class="d-key">AI</span><span class="d-val">Claude Sonnet API — structured prompt chain per regulatory framework</span></div>
+          <div class="d-kv"><span class="d-key">Database</span><span class="d-val">Supabase (PostgreSQL + Auth)</span></div>
+          <div class="d-kv"><span class="d-key">Cache</span><span class="d-val">Upstash Redis — rate limiting + API response caching</span></div>
+          <div class="d-kv"><span class="d-key">Hosting</span><span class="d-val">Vercel</span></div>
+          <div class="d-kv"><span class="d-key">Storage</span><span class="d-val">AWS S3 — document storage</span></div>
+          <div class="d-kv"><span class="d-key">Data</span><span class="d-val">Apify — tender data ingestion pipeline</span></div>
+        </div>
+      </div>
+
+      <div class="reflection-block detail-full">
+        <div class="d-label">Reflections</div>
+        <ul class="d-ul">
+          <li>Regulatory research (seven Acts across national, provincial, and municipal tiers) was as technically demanding as the code — domain knowledge is a genuine engineering asset in civic-tech.</li>
+          <li>LLM fraud detection requires explicit regulatory grounding in the system prompt — generic analysis without SA-specific context produces irrelevant output.</li>
+          <li>The dark cybersecurity aesthetic was a deliberate UX choice — security tooling's visual language signals authority and seriousness, which directly affects analyst trust in the output.</li>
+        </ul>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">itweb Security Summit Hackathon · 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 03 — STEALTHMODE ═══════════════════════════ -->
+  <div class="proj-section" id="stealthmode" data-cats="ai security">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num pu">
+          <div class="ph-num-txt">03</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">StealthMode — Static Context Engine (SCE)</div>
+            <span class="ph-pill pill-pu">AI · Operational Security</span>
+          </div>
+          <div class="ph-subtitle">Offline AI coding assistant engineered for restricted university lab environments — zero network footprint, USB-portable, course-specific knowledge base</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">Java</span><span class="ph-tag">Gemini API</span>
+            <span class="ph-tag">LangChain4j</span><span class="ph-tag">Apache Lucene</span>
+            <span class="ph-tag">GlassFish</span><span class="ph-tag">NetBeans Ant</span>
+            <span class="ph-tag">ADB Tunnel</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Problem Statement</div>
+          <div class="d-kv"><span class="d-key">Environment</span><span class="d-val">University lab PCs — NetBeans + GlassFish + Derby only; no Maven downloads; no admin rights</span></div>
+          <div class="d-kv"><span class="d-key">Network</span><span class="d-val">Restricted or monitored institutional network; external API calls logged</span></div>
+          <div class="d-kv"><span class="d-key">Visibility</span><span class="d-val">No suspicious plugins or installations visible to other users or staff</span></div>
+          <div class="d-kv"><span class="d-key">Portability</span><span class="d-val">Entire system must fit on a USB drive or single JAR file</span></div>
+          <div class="d-kv"><span class="d-key">Intelligence</span><span class="d-val">Must generate course-specific code — EJBs, Servlets, JDBC patterns, Memani's exact Interface+Manager architecture</span></div>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Architecture Evolution</div>
+          <ul class="d-ul">
+            <li><strong style="color:var(--white);">Phase 1 — USB Dev Environment:</strong> Full portable NetBeans + JDK + Maven repo on USB; netbeans.conf redirected all cache dirs to USB path — zero host trace</li>
+            <li><strong style="color:var(--white);">Phase 2 — Fat JAR:</strong> Single pre-compiled JAR (LangChain4j + Gson + Lucene bundled, named <em>derby-driver-addon-ext.jar</em>) in WEB-INF/lib — indistinguishable from a standard library</li>
+            <li><strong style="color:var(--white);">Phase 3 — Final SCE:</strong> Gemini API-powered Ant project; course content baked in; CodeTemplateBroker class maps scenario × layer → boilerplate; API routed via ADB USB tunnel (phone as cellular gateway)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Core Components</div>
+          <div class="d-kv"><span class="d-key">CodeTemplateBroker</span><span class="d-val">Offline code dictionary — scenario + layer → pre-formatted boilerplate for 8 academic scenarios × 4 layers</span></div>
+          <div class="d-kv"><span class="d-key">Lucene Index</span><span class="d-val">Apache Lucene indexes knowledge base .txt files on USB — keyword search maps academic questions to code segments</span></div>
+          <div class="d-kv"><span class="d-key">LangChain4j Store</span><span class="d-val">InMemoryEmbeddingStore — semantic retrieval of past templates and JavaDoc, no persistence required</span></div>
+          <div class="d-kv"><span class="d-key">Stealth Servlet</span><span class="d-val">PerformanceTrackerServlet — disguised as a system diagnostic tool; renders AI UI inside a standard-looking admin page</span></div>
+          <div class="d-kv"><span class="d-key">ADB Tunnel</span><span class="d-val">Phone tethered via USB → ADB reverse tunnel → Gemini API calls bypass institutional network entirely</span></div>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Operational Security Design</div>
+          <div class="d-kv"><span class="d-key">JAR naming</span><span class="d-val"><em>derby-driver-addon-ext.jar</em> — indistinguishable from standard Derby libs</span></div>
+          <div class="d-kv"><span class="d-key">Servlet name</span><span class="d-val">SystemPerformanceMonitor, URL mapped to /sys-perf-trace</span></div>
+          <div class="d-kv"><span class="d-key">Deployment</span><span class="d-val">Copy JAR → GlassFish deploys → unplug USB; server reads from domain1/applications/ cache</span></div>
+          <div class="d-kv"><span class="d-key">Network</span><span class="d-val">Zero host-network traffic — all API calls via phone's cellular connection over ADB USB</span></div>
+          <div class="d-kv"><span class="d-key">Cleanup</span><span class="d-val">Remove servlet source → Clean + Build in NetBeans → clear Recent Projects history before submission</span></div>
+        </div>
+      </div>
+
+      <div class="reflection-block detail-full">
+        <div class="d-label">Reflections</div>
+        <ul class="d-ul">
+          <li>This is primarily a systems design and operational security exercise — the interesting engineering challenge is constraint-satisfaction, not the AI component itself.</li>
+          <li>The CodeTemplateBroker pattern (compiled Java class as an offline knowledge dictionary) is broadly applicable to any constrained environment where an LLM is unavailable.</li>
+          <li>The ADB reverse tunnel solution — exploiting the fact that USB device traffic bypasses the institutional network stack — is a genuinely novel approach to network restriction.</li>
+        </ul>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">Independent · INT316D Module, TUT · 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 04 — NOWNOW ════════════════════════════════ -->
+  <div class="proj-section" id="nownow" data-cats="fullstack academic">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num bl">
+          <div class="ph-num-txt">04</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">NowNow Courier Delivery System</div>
+            <span class="ph-pill pill-bl">Full Stack · Java EE</span>
+          </div>
+          <div class="ph-subtitle">Uber-style three-tier courier web application — TUT Internet Programming module</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">Java 17</span><span class="ph-tag">Jakarta EE 10</span>
+            <span class="ph-tag">Servlets + JSP</span><span class="ph-tag">MySQL 8</span>
+            <span class="ph-tag">GlassFish 7</span><span class="ph-tag">Maven</span>
+            <span class="ph-tag">PreparedStatement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Overview</div>
+          <p class="d-para">A fully functional three-tier courier and package delivery application modelled after Uber's service architecture. Supports Customer, Driver, and Admin roles with real-time package tracking, driver assignment workflows, business analytics, and an AI-powered chatbot.</p>
+        </div>
+        <div class="d-block">
+          <div class="d-label">3-Tier Architecture</div>
+          <div class="d-kv"><span class="d-key">Tier 1 — Client</span><span class="d-val">HTML5, CSS3, Vanilla JS — responsive multi-role dashboards</span></div>
+          <div class="d-kv"><span class="d-key">Tier 2 — Application</span><span class="d-val">Java 17 Servlets + JSP (Jakarta EE 10) on GlassFish 7</span></div>
+          <div class="d-kv"><span class="d-key">Tier 3 — Database</span><span class="d-val">MySQL 8.x — 5 normalised tables with FK constraints</span></div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Package Structure</div>
+          <div class="d-kv"><span class="d-key">model</span><span class="d-val">User, Driver, Package, Delivery, TrackingEvent, DriverReportRow</span></div>
+          <div class="d-kv"><span class="d-key">dao</span><span class="d-val">UserDAO, DriverDAO, PackageDAO, DeliveryDAO, TrackingEventDAO — 100% PreparedStatement</span></div>
+          <div class="d-kv"><span class="d-key">servlet</span><span class="d-val">15 servlets — Login, Register, Customer/Driver/Admin dashboards, Reports, Tracking, ChatbotServlet</span></div>
+          <div class="d-kv"><span class="d-key">util</span><span class="d-val">DBConnection (connection pooling), TrackingNumberUtil (unique ID generation)</span></div>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Security Implementation</div>
+          <ul class="d-ul">
+            <li>100% PreparedStatement usage — zero string concatenation in SQL queries</li>
+            <li>GlassFish Container-Managed Security with file realm</li>
+            <li>web.xml security constraints + programmatic role checks in servlets</li>
+            <li>30-minute session idle timeout with proper invalidation on logout</li>
+            <li>Custom 404 and 500 error pages with graceful exception handling</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">TUT · Internet Programming Module · 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 05 — STUDENTRESFINDER ═════════════════════ -->
+  <div class="proj-section" id="studentresfinder" data-cats="fullstack security academic">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num am">
+          <div class="ph-num-txt">05</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">StudentResFinder</div>
+            <span class="ph-pill pill-am">Java EE · Security</span>
+          </div>
+          <div class="ph-subtitle">Student accommodation discovery platform — TUT group project. My role: Security &amp; Admin module</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">Java EE</span><span class="ph-tag">Apache Derby</span>
+            <span class="ph-tag">JSTL</span><span class="ph-tag">GlassFish</span>
+            <span class="ph-tag">bcrypt</span><span class="ph-tag">RBAC</span>
+            <span class="ph-tag">Apache Ant</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Overview</div>
+          <p class="d-para">A Java EE platform connecting students seeking accommodation with verified landlords. Three-role architecture — Student, Landlord, Admin — with a landlord verification workflow, listing management, and student-facing search and filter.</p>
+          <p class="d-para" style="margin-top:0.65rem;color:var(--pink-soft);font-style:italic;">My contribution: the Security &amp; Admin module — implementing the admin verification workflow, GlassFish realm configuration, and security utilities used across the entire application by all team members.</p>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Security Contributions</div>
+          <ul class="d-ul">
+            <li>GlassFish file realm with STUDENT, LANDLORD, ADMIN groups — group-to-role mapping in glassfish-web.xml aligned with web.xml security constraints</li>
+            <li>SecurityUtil.requireRole() — programmatic role enforcement consumed by every servlet in the project, clean interface contract from day one</li>
+            <li>PasswordUtil — bcrypt password hashing with salt; zero plaintext storage</li>
+            <li>HTTP-only session cookies configured in web.xml</li>
+            <li>Input sanitisation helpers and output escaping across JSPs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="detail-full d-block">
+        <div class="d-label">Admin Verification Workflow</div>
+        <p class="d-para">Landlords register with status <span style="color:var(--amber);">PENDING</span> — blocked from creating listings until verified. Admin dashboard surfaces all pending accounts. Verify or Reject action triggers <span style="color:var(--blue);">VerificationSB → LandlordDAO → status update</span>. Rejected landlords cannot publish accommodation. This workflow was designed so that other team members could call it with a single method — abstraction that enabled parallel development across the group project.</p>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">TUT · Group Project · 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 06 — ENIGMA ════════════════════════════════ -->
+  <div class="proj-section" id="enigma" data-cats="academic fullstack">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num fa">
+          <div class="ph-num-txt">06</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">Enigma Blog</div>
+            <span class="ph-pill pill-mu">Web · Academic</span>
+          </div>
+          <div class="ph-subtitle">Cybersecurity-themed static blog — TUT Web Development module. The project that started the cybersecurity content thread running through every subsequent project.</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">HTML5</span><span class="ph-tag">CSS3</span>
+            <span class="ph-tag">Bootstrap 5</span><span class="ph-tag">jQuery</span>
+            <span class="ph-tag">Custom OTF Font</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="d-block">
+          <div class="d-label">Pages</div>
+          <div class="d-kv"><span class="d-key">home.html</span><span class="d-val">Landing page — nav, featured articles, sidebar widgets</span></div>
+          <div class="d-kv"><span class="d-key">Ransomware.html</span><span class="d-val">Article: Malware vs Ransomware — technical comparison</span></div>
+          <div class="d-kv"><span class="d-key">Hushpuppi.html</span><span class="d-val">Article: Hushpuppi case study — real-world cybercrime analysis</span></div>
+          <div class="d-kv"><span class="d-key">adminPage.html</span><span class="d-val">Content management dashboard — dual-audience design</span></div>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Design Decisions</div>
+          <ul class="d-ul">
+            <li>Custom Enigma OTF font — typography as brand signal, reinforcing the cybersecurity identity</li>
+            <li>Bootstrap 5 grid — responsive layout without custom media query complexity at this stage</li>
+            <li>Admin page optimised for efficiency (CMS audience); reader pages optimised for legibility</li>
+            <li>Content choice (Hushpuppi case study) reflects genuine interest in cybercrime analysis, not generic filler</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="proj-link-row">
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+        <span style="font-size:11.5px;color:var(--muted);align-self:center;">TUT · Web Development Module · 2024</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROJECT 07 — CTF ═══════════════════════════════════ -->
+  <div class="proj-section" id="ctf" data-cats="security">
+    <div class="proj-inner">
+
+      <div class="proj-header">
+        <div class="ph-num rd">
+          <div class="ph-num-txt">07</div>
+          <div class="ph-num-lbl">project</div>
+        </div>
+        <div class="ph-info">
+          <div class="ph-info-top">
+            <div class="ph-name">CTF Hackathon Writeups</div>
+            <span class="ph-pill pill-rd">Cybersecurity · CTF</span>
+          </div>
+          <div class="ph-subtitle">Competitive cybersecurity — Capture the Flag challenge documentation. Publication pending organiser permission.</div>
+          <div class="ph-tags-row">
+            <span class="ph-tag">Penetration Testing</span><span class="ph-tag">Web Exploitation</span>
+            <span class="ph-tag">Cryptography</span><span class="ph-tag">Network Forensics</span>
+            <span class="ph-tag">Binary Exploitation</span><span class="ph-tag">CompTIA Security+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pending-block">
+        <div class="p-icon">🚩</div>
+        <div class="p-title">Writeups Pending Publication</div>
+        <p class="p-txt">CTF competition writeups are awaiting permission from event organisers before public release.<br>
+        Full writeups will cover challenge descriptions, toolchains, solution methodology, flags, and lessons learned across web exploitation, cryptography, network forensics, and binary exploitation categories.<br><br>
+        <span style="color:var(--pink);">Check back soon — or <a href="mailto:kgaugelomphelo@gmail.com" style="color:var(--pink);">reach out directly</a> for more information.</span></p>
+      </div>
+
+      <div class="detail-grid" style="margin-top:1.25rem;">
+        <div class="d-block">
+          <div class="d-label">Why CTF Work Matters</div>
+          <ul class="d-ul">
+            <li>TenderShield SA's fraud logic directly applies attacker mindset — how does a fraudulent actor evade PPPFA compliance checks?</li>
+            <li>StealthMode's operational security design was built with CTF-style thinking: how does a controlled system behave under observation?</li>
+            <li>CTF debugging discipline (reading system behaviour at a low level) transfers directly to production architecture decisions</li>
+          </ul>
+        </div>
+        <div class="d-block">
+          <div class="d-label">Anticipated Coverage</div>
+          <ul class="d-ul">
+            <li>Web exploitation — SQL injection, XSS, IDOR, authentication bypass</li>
+            <li>Cryptography — cipher analysis, hash cracking, encoding challenges</li>
+            <li>Network forensics — pcap analysis, protocol dissection</li>
+            <li>Binary exploitation — buffer overflows, format strings</li>
+            <li>Toolchain: Burp Suite, Wireshark, GDB, CyberChef, Nmap</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <span>© 2026 Kgaugelo Nkosazana Mphelo &nbsp;·&nbsp; <span style="color:var(--pink);">kgaugelo@portfolio:~/projects$</span></span>
+  <span>
+    <a href="index.html">home</a> &nbsp;·&nbsp;
+    <a href="resume.html">resume</a> &nbsp;·&nbsp;
+    <a href="mailto:kgaugelomphelo@gmail.com">email</a> &nbsp;·&nbsp;
+    <a href="https://github.com/MsLotusFlowerBomb" target="_blank" rel="noopener">github</a>
+  </span>
+</footer>
+
+<script>
+function setFilter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.proj-section').forEach(s => {
+    if (cat === 'all') {
+      s.style.display = '';
+    } else {
+      const cats = (s.dataset.cats || '').split(' ');
+      s.style.display = cats.includes(cat) ? '' : 'none';
+    }
+  });
+}
+// Highlight active anchor
+const hash = window.location.hash;
+if (hash) {
+  const el = document.querySelector(hash);
+  if (el) { el.style.outline = '1px solid rgba(255,45,120,0.3)'; el.style.borderRadius = '4px'; }
+}
+</script>
+</body>
+</html>

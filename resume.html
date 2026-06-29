@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume — Kgaugelo Mphelo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── RESUME PAGE SPECIFIC ── */
+
+.resume-hero {
+  padding: 70px 10vw 50px;
+  border-bottom: 1px solid var(--border);
+  max-width: none;
+}
+.rh-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; flex-wrap: wrap; gap: 1.5rem;
+}
+
+.rh-left {}
+.rh-eyebrow { font-size:12px; color:var(--muted); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.rh-eyebrow::before { content:'$'; color:var(--pink); font-weight:700; }
+.rh-name { font-size: clamp(1.8rem,4vw,2.6rem); font-weight:700; letter-spacing:-0.025em; color:var(--white); line-height:1.1; }
+.rh-name em { font-style:normal; color:var(--pink); }
+.rh-role { font-size:13.5px; color:var(--muted); margin-top:0.6rem; line-height:1.7; }
+.rh-role span { color:var(--pink); font-weight:600; }
+.rh-contact {
+  display:flex; flex-wrap:wrap; gap:10px;
+  margin-top:1.25rem;
+}
+.rh-chip {
+  font-size:11.5px; color:var(--muted);
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:5px; padding:5px 12px;
+  display:flex; align-items:center; gap:6px;
+  text-decoration:none; transition:all 0.15s;
+}
+.rh-chip:hover { color:var(--pink); border-color:rgba(255,45,120,0.3); }
+.rh-chip .chi { color:var(--pink); font-size:12px; }
+
+.rh-right { display:flex; flex-direction:column; gap:8px; }
+.dl-btn {
+  font-family:var(--font); font-size:12.5px; font-weight:600;
+  padding:10px 20px; border-radius:6px; border:none;
+  cursor:pointer; text-decoration:none;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:all 0.15s;
+}
+.dl-primary { background:var(--pink); color:#fff; }
+.dl-primary:hover { background:var(--pink-dim); transform:translateY(-1px); }
+.dl-sec { background:transparent; color:var(--white); border:1px solid var(--border2); }
+.dl-sec:hover { border-color:var(--pink); color:var(--pink); background:var(--pink-muted); }
+
+/* RESUME BODY */
+.resume-body { max-width:1100px; margin:0 auto; padding:0 10vw; }
+
+/* Section dividers */
+.rs {
+  padding: 50px 0;
+  border-bottom: 1px solid var(--border);
+}
+.rs:last-child { border-bottom:none; }
+
+.rs-head {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:1.75rem;
+}
+.rs-icon { font-size:16px; }
+.rs-title {
+  font-size:13px; font-weight:700; color:var(--pink);
+  letter-spacing:0.06em; text-transform:uppercase;
+}
+.rs-line { flex:1; height:1px; background:var(--border); }
+
+/* SUMMARY */
+.summary-block {
+  background:var(--card2); border:1px solid var(--border);
+  border-left:3px solid var(--pink);
+  border-radius:6px; padding:1.25rem 1.5rem;
+  font-size:13px; color:var(--muted); line-height:1.9;
+}
+.summary-block strong { color:var(--white); }
+.summary-block .pk { color:var(--pink); font-weight:600; }
+
+/* KEY ACHIEVEMENTS */
+.ach-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1rem;
+}
+.ach-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:1rem 1.25rem;
+  position:relative; overflow:hidden;
+}
+.ach-card::before {
+  content:''; position:absolute; top:0; left:0; bottom:0; width:3px;
+}
+.ach-card.pk::before { background:var(--pink); }
+.ach-card.am::before { background:var(--amber); }
+.ach-card.bl::before { background:var(--blue); }
+.ach-card.pu::before { background:var(--purple); }
+
+.ac-label { font-size:9.5px; color:var(--faint); letter-spacing:0.07em; text-transform:uppercase; margin-bottom:5px; }
+.ac-title { font-size:13px; font-weight:700; color:var(--white); line-height:1.4; margin-bottom:4px; }
+.ac-body { font-size:11.5px; color:var(--muted); line-height:1.7; }
+.ac-date { font-size:10.5px; color:var(--pink); margin-top:6px; font-weight:600; }
+
+/* SKILLS COMPETENCIES */
+.skills-cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+@media(max-width:800px){ .skills-cols{ grid-template-columns:1fr 1fr; } }
+@media(max-width:500px){ .skills-cols{ grid-template-columns:1fr; } }
+
+.sc-block {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:1rem 1.2rem;
+}
+.sc-head { font-size:11px; color:var(--pink); font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:0.65rem; }
+.sc-list { list-style:none; padding:0; margin:0; }
+.sc-list li { font-size:12px; color:var(--muted); padding:2px 0 2px 12px; position:relative; line-height:1.6; }
+.sc-list li::before { content:'›'; position:absolute; left:0; color:var(--pink); }
+
+/* EXPERIENCE */
+.exp-item { margin-bottom:2rem; }
+.exp-item:last-child { margin-bottom:0; }
+
+.exp-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-wrap:wrap; gap:8px; margin-bottom:4px;
+}
+.exp-role { font-size:14px; font-weight:700; color:var(--white); }
+.exp-date { font-size:11px; color:var(--pink); font-weight:600; flex-shrink:0; background:var(--pink-muted); border:1px solid rgba(255,45,120,0.2); border-radius:4px; padding:2px 8px; align-self:flex-start; }
+.exp-org { font-size:12.5px; color:var(--blue); margin-bottom:8px; }
+.exp-loc { font-size:11px; color:var(--faint); }
+.exp-ul { list-style:none; padding:0; margin:0; }
+.exp-ul li { font-size:12.5px; color:var(--muted); line-height:1.8; padding:2px 0 2px 16px; position:relative; }
+.exp-ul li::before { content:'▸'; position:absolute; left:0; color:var(--pink); font-size:10px; top:5px; }
+.exp-highlight { color:var(--white); font-weight:600; }
+.exp-divider { height:1px; background:var(--border); margin:2rem 0; }
+
+/* EDUCATION */
+.edu-item { margin-bottom:1.5rem; }
+.edu-item:last-child { margin-bottom:0; }
+.edu-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:4px; }
+.edu-qual { font-size:14px; font-weight:700; color:var(--white); }
+.edu-date { font-size:11px; color:var(--pink); font-weight:600; background:var(--pink-muted); border:1px solid rgba(255,45,120,0.2); border-radius:4px; padding:2px 8px; flex-shrink:0; }
+.edu-inst { font-size:12.5px; color:var(--blue); margin-bottom:6px; }
+.edu-detail { font-size:12px; color:var(--muted); line-height:1.75; }
+.edu-detail .hi { color:var(--amber); }
+
+/* CERTS */
+.cert-tbl { width:100%; border-collapse:collapse; }
+.cert-tbl th { text-align:left; padding:8px 12px; background:var(--card); color:var(--pink); font-size:10.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; border-bottom:1px solid var(--border); }
+.cert-tbl td { padding:8px 12px; font-size:12.5px; color:var(--muted); border-bottom:1px solid var(--border); vertical-align:middle; }
+.cert-tbl tr:last-child td { border-bottom:none; }
+.cert-tbl tr:nth-child(even) td { background:rgba(255,255,255,0.015); }
+.cert-tbl td:first-child { color:var(--white); font-weight:600; }
+.cert-tbl td:last-child { color:var(--pink); font-size:11px; font-weight:600; }
+
+/* PRINT HINT */
+.print-note {
+  font-size:11px; color:var(--faint); text-align:center;
+  padding:1rem; border-top:1px solid var(--border);
+  margin-top:2rem;
+}
+</style>
+</head>
+<body>
+
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <span class="nav-prompt">kgaugelo@portfolio:~/resume$</span>
+  <div class="nav-links">
+    <a href="index.html">home</a>
+    <a href="projects.html">projects</a>
+    <a href="resume.html" class="active">resume</a>
+  </div>
+  <div class="nav-right">
+    <div class="status-dot" aria-hidden="true"></div>
+    <span class="status-text">open to opportunities</span>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- RESUME HERO / HEADER -->
+  <div class="resume-hero">
+    <div class="rh-inner">
+      <div class="rh-left">
+        <div class="rh-eyebrow">cat resume.md --enhanced</div>
+        <h1 class="rh-name">Kgaugelo Nkosazana<br><em>Mphelo</em></h1>
+        <p class="rh-role">
+          <span>Cybersecurity</span> · Software Development · AI Integration<br>
+          Final-Year Computer Science Student · LDIL Cohort Representative
+        </p>
+        <div class="rh-contact">
+          <a href="mailto:kgaugelomphelo@gmail.com" class="rh-chip"><span class="chi">✉</span> kgaugelomphelo@gmail.com</a>
+          <a href="tel:+27767288763" class="rh-chip"><span class="chi">☎</span> +27 76 728 8763</a>
+          <span class="rh-chip"><span class="chi">📍</span> Pretoria &amp; Polokwane, ZA</span>
+          <a href="https://github.com/MsLotusFlowerBomb" class="rh-chip" target="_blank" rel="noopener"><span class="chi">⌥</span> github.com/MsLotusFlowerBomb</a>
+        </div>
+      </div>
+      <div class="rh-right">
+        <button class="dl-btn dl-primary" onclick="window.print()">⬇ Download / Print PDF</button>
+        <a href="projects.html" class="dl-btn dl-sec">view projects →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="resume-body">
+
+    <!-- ── PROFESSIONAL SUMMARY ──────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">▸</span>
+        <span class="rs-title">Professional Summary</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <div class="summary-block">
+        Final-year <strong>National Diploma Computer Science</strong> student at Tshwane University of Technology, targeting a career in <span class="pk">Cybersecurity</span> (primary) and Software Development. Currently serving as <strong>LDIL Cohort Representative</strong> for the Samsung-backed Limpopo Digital Innovation Lab, where the team's final project — a cross-platform clinic management system — was <strong>presented to the Parliamentary Portfolio Committee on Communications and Digital Technologies</strong> in April 2026.<br><br>
+        Brings over <strong>8 years of commercial leadership</strong> to every technical decision: founded a multidisciplinary consulting firm (R1M revenue, Year 1), secured R20M in contracts, and graduated from the J.P. Morgan / GIBS Green Entrepreneurship Programme. Holds <span class="pk">CompTIA Security+</span> and seven professional certifications. Recognised as a <strong>2025 Wired4Women Top Tech Student Finalist</strong>. Designs secure, scalable systems — from PostgreSQL Row-Level Security architectures to AI-powered procurement fraud detection with live regulatory analysis.
+      </div>
+    </div>
+
+    <!-- ── KEY ACHIEVEMENTS ──────────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">★</span>
+        <span class="rs-title">Key Achievements</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <div class="ach-grid">
+        <div class="ach-card pk">
+          <div class="ac-label">Parliamentary Recognition</div>
+          <div class="ac-title">Parliamentary Portfolio Committee Presenter</div>
+          <div class="ac-body">UL Optometry Clinic Management System (Cyber6ix / LDIL) presented to the national Parliamentary Portfolio Committee on Communications and Digital Technologies.</div>
+          <div class="ac-date">April 2026</div>
+        </div>
+        <div class="ach-card am">
+          <div class="ac-label">Industry Recognition</div>
+          <div class="ac-title">Wired4Women Top Tech Student Finalist</div>
+          <div class="ac-body">One of five national finalists in the Openserve-sponsored Top Tech Student category — Wired4Women Tech Forum / ITWeb Brainstorm / Telkom.</div>
+          <div class="ac-date">2025</div>
+        </div>
+        <div class="ach-card pk">
+          <div class="ac-label">Programme Leadership</div>
+          <div class="ac-title">LDIL Cohort Representative</div>
+          <div class="ac-body">Elected by peers and programme facilitators to represent the cohort of the Samsung-backed Limpopo Digital Innovation Lab; liaison, mentor coordination, feedback loops.</div>
+          <div class="ac-date">2025 – Present</div>
+        </div>
+        <div class="ach-card am">
+          <div class="ac-label">Commercial Leadership</div>
+          <div class="ac-title">R20M in Contract Acquisitions</div>
+          <div class="ac-body">Spearheaded technical bid proposals and solution architectures securing over R20M in commercial contracts across consulting tenure at ISO-Q Consulting / Masmagnet.</div>
+          <div class="ac-date">2020 – 2022</div>
+        </div>
+        <div class="ach-card bl">
+          <div class="ac-label">Academic Excellence</div>
+          <div class="ac-title">Best First-Year Student Achiever — TUT</div>
+          <div class="ac-body">Top academic honours in first year of Computer Science studies, Department of Information and Communication Technology, TUT.</div>
+          <div class="ac-date">2024</div>
+        </div>
+        <div class="ach-card pu">
+          <div class="ac-label">Entrepreneurship</div>
+          <div class="ac-title">Founder &amp; Managing Director</div>
+          <div class="ac-body">Built and scaled Upper Level Consulting and Projects to over R1M revenue in its inaugural year; negotiated mineral rights in Zimbabwe; GIBS / J.P. Morgan alumna.</div>
+          <div class="ac-date">2012 – 2020</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CORE COMPETENCIES ─────────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">⚙</span>
+        <span class="rs-title">Core Competencies &amp; Technical Skills</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <div class="skills-cols">
+        <div class="sc-block" style="border-top:2px solid var(--red);">
+          <div class="sc-head" style="color:var(--red);">Cybersecurity</div>
+          <ul class="sc-list">
+            <li>CompTIA Security+ certified</li>
+            <li>Risk mitigation &amp; compliance</li>
+            <li>RBAC &amp; PostgreSQL RLS design</li>
+            <li>POPIA / PFMA / B-BBEE frameworks</li>
+            <li>AI-powered fraud detection</li>
+            <li>Audit logging &amp; PII protection</li>
+            <li>CTF competitive challenges</li>
+            <li>ISO 9001:2015 QMS</li>
+          </ul>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--pink);">
+          <div class="sc-head">Programming &amp; Development</div>
+          <ul class="sc-list">
+            <li>C# · .NET MAUI (cross-platform)</li>
+            <li>Java · Jakarta EE (Servlets/JSP)</li>
+            <li>Python · JavaScript · React</li>
+            <li>SQL (PostgreSQL, MySQL, Derby)</li>
+            <li>HTML5 · CSS3 · Bootstrap 5</li>
+            <li>MVVM + Service Layer</li>
+            <li>3-Tier MVC · DAO pattern</li>
+            <li>REST APIs · PostgREST</li>
+          </ul>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--purple);">
+          <div class="sc-head" style="color:var(--purple);">AI &amp; Automation</div>
+          <ul class="sc-list">
+            <li>Agentic AI frameworks</li>
+            <li>Claude API · Gemini API</li>
+            <li>LangChain4j · Apache Lucene</li>
+            <li>Prompt engineering</li>
+            <li>LLM integration &amp; chaining</li>
+            <li>Microsoft AI Fluency certified</li>
+            <li>ALX AI Programme (in progress)</li>
+          </ul>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--blue);">
+          <div class="sc-head" style="color:var(--blue);">Cloud &amp; Platforms</div>
+          <ul class="sc-list">
+            <li>Supabase (PostgreSQL + Auth + Realtime)</li>
+            <li>GlassFish 7 · Jakarta EE 10</li>
+            <li>Vercel · AWS S3</li>
+            <li>Upstash Redis</li>
+            <li>GitHub Actions (CI/CD)</li>
+            <li>Apache Ant · Maven</li>
+          </ul>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--amber);">
+          <div class="sc-head" style="color:var(--amber);">Methodology &amp; Process</div>
+          <ul class="sc-list">
+            <li>Agile / Scrum · SDLC</li>
+            <li>Git · GitHub</li>
+            <li>Design Thinking</li>
+            <li>Technical bid writing</li>
+            <li>Stakeholder presentations</li>
+            <li>Peer mentorship &amp; facilitation</li>
+          </ul>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--muted);">
+          <div class="sc-head">Languages</div>
+          <ul class="sc-list">
+            <li>English — Fluent</li>
+            <li>Sepedi — Fluent</li>
+          </ul>
+          <div class="sc-head" style="margin-top:1rem;">Soft Skills</div>
+          <ul class="sc-list">
+            <li>Commercial negotiation</li>
+            <li>Multinational team management</li>
+            <li>Cross-functional collaboration</li>
+            <li>Community presentation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFESSIONAL EXPERIENCE ───────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">◈</span>
+        <span class="rs-title">Professional Experience</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <!-- LDIL -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-role">Software Development Trainee &amp; Cohort Representative</div>
+          <span class="exp-date">Oct 2025 – Aug 2026</span>
+        </div>
+        <div class="exp-org">Limpopo Digital Innovation Lab (LDIL) — Samsung / University of Limpopo · Pretoria, South Africa</div>
+        <ul class="exp-ul">
+          <li><span class="exp-highlight">Elected Cohort Representative</span> — liaison between trainees and LDIL programme leadership; coordinates feedback loops, peer mentorship sessions and collaborative study groups across the cohort.</li>
+          <li>Built <span class="exp-highlight">UL Optometry Clinic Management System</span> (Cyber6ix team) — a cross-platform clinical management platform in C# / .NET MAUI + Supabase for the University of Limpopo's Optometry Department; four user roles, 15 database tables, PostgreSQL RLS, 14-service MVVM architecture.</li>
+          <li><span class="exp-highlight">Presented the system to the Parliamentary Portfolio Committee on Communications and Digital Technologies</span> in April 2026 as part of the LDIL programme showcase.</li>
+          <li>Designed and implemented <span class="exp-highlight">Agentic AI solutions</span> and automation workflows using LLM integration (Claude API, Gemini API) and structured prompt engineering to solve business process challenges.</li>
+          <li>Operated within Agile/Scrum teams across the full SDLC — sprint planning, retrospectives, automated testing, code review.</li>
+          <li>Built cross-platform mobile and desktop applications using MVVM architecture patterns, clean coding principles, and Dependency Injection.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- SR GENERAL TRADING -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-role">Commercial Manager</div>
+          <span class="exp-date">Sep 2022 – May 2024</span>
+        </div>
+        <div class="exp-org">SR General Trading · South Africa</div>
+        <ul class="exp-ul">
+          <li>Managed end-to-end commercial operations — contract negotiation, market analysis, legal compliance — aligned to corporate strategy.</li>
+          <li>Spearheaded business efficiency initiatives through systematic adoption of modern workplace technology and targeted staff-enablement programmes.</li>
+          <li>Authored complex technical and financial proposals for public and private sector tenders, accelerating business development outcomes.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- ISO-Q -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-role">Business Development &amp; Commercial Services Specialist</div>
+          <span class="exp-date">Aug 2020 – Nov 2022</span>
+        </div>
+        <div class="exp-org">ISO-Q Consulting / Masmagnet · South Africa</div>
+        <ul class="exp-ul">
+          <li>Led cross-functional teams drafting technical bid proposals, resulting in <span class="exp-highlight">acquisition of projects valued in excess of R20 million</span>.</li>
+          <li>Oversaw project initiation — establishing clear deliverables, managing consultant resources across multinational, remote working teams.</li>
+          <li>Designed and executed business strategy frameworks to audit and unlock new monetisation avenues from existing commercial infrastructure.</li>
+        </ul>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <!-- UPPER LEVEL -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-role">Founder &amp; Managing Director</div>
+          <span class="exp-date">May 2012 – Mar 2020</span>
+        </div>
+        <div class="exp-org">Upper Level Consulting and Projects · South Africa / Zimbabwe</div>
+        <ul class="exp-ul">
+          <li>Founded and scaled a multidisciplinary consulting firm to <span class="exp-highlight">over R1 million in revenue within the first year</span> of operation.</li>
+          <li>Successfully negotiated and secured mineral rights in Zimbabwe, expanding operations internationally.</li>
+          <li>Graduated from the <span class="exp-highlight">J.P. Morgan / GIBS Entrepreneurship &amp; Green Entrepreneurship Programme</span>; developed sustainable solar home initiatives for underserved communities — early intersection of technology, sustainability and social impact.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── EDUCATION ─────────────────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">◉</span>
+        <span class="rs-title">Education</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-qual">National Diploma in Computer Science</div>
+          <span class="edu-date">Feb 2024 – Present (Expected 2027)</span>
+        </div>
+        <div class="edu-inst">Tshwane University of Technology (TUT) · Department of ICT · Final Year</div>
+        <div class="edu-detail">
+          <span class="hi">Key Achievements:</span> Best First-Year Student Achiever (2024) · 2025 Wired4Women Top Tech Student Finalist<br>
+          <span class="hi">Focus Areas:</span> Systems Analysis · Software Development (C#, Java, SQL) · Advanced Mathematics · Cybersecurity · Software Engineering · Computer Architecture · Networking · Information Systems · Internet Programming
+        </div>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-qual">Software Development Programme (NQF Level 6)</div>
+          <span class="edu-date">Aug 2025 – Aug 2026</span>
+        </div>
+        <div class="edu-inst">Limpopo Digital Innovation Lab (LDIL) — Samsung / University of Limpopo · 12-Month Programme</div>
+        <div class="edu-detail">
+          Comprehensive full-stack software development programme aligned to NQF Level 6 — covering C#, .NET MAUI, programming fundamentals, Agile methodology, AI integration, and Digital Social Innovation.<br>
+          <span class="hi">Role:</span> Cohort Representative · <span class="hi">Final Project:</span> UL Optometry Clinic Management System (Cyber6ix team) — presented to Parliamentary Portfolio Committee, April 2026.
+        </div>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <div class="edu-item">
+        <div class="edu-header">
+          <div class="edu-qual">National Senior Certificate (Matric)</div>
+          <span class="edu-date">Completed</span>
+        </div>
+        <div class="edu-inst">Roedean School (SA)</div>
+        <div class="edu-detail">Passed with Bachelor Degree Admission.</div>
+      </div>
+    </div>
+
+    <!-- ── CERTIFICATIONS ────────────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">✦</span>
+        <span class="rs-title">Professional Certifications</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <table class="cert-tbl" aria-label="Professional certifications">
+        <thead>
+          <tr>
+            <th>Certification</th>
+            <th>Issuing Body</th>
+            <th>Focus Area</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🔐 CompTIA Security+</td>
+            <td>CompTIA</td>
+            <td>Cybersecurity risk, threats, mitigation, compliance</td>
+            <td>2021</td>
+          </tr>
+          <tr>
+            <td>🤖 AI Fluency</td>
+            <td>Microsoft</td>
+            <td>Artificial Intelligence fundamentals and applied AI</td>
+            <td>Jul 2025</td>
+          </tr>
+          <tr>
+            <td>🐍 Python (MTA)</td>
+            <td>Microsoft Technology Associate</td>
+            <td>Python programming fundamentals</td>
+            <td>2021</td>
+          </tr>
+          <tr>
+            <td>📋 Certificate in Project Management</td>
+            <td>Project Management SA</td>
+            <td>Project planning, delivery, stakeholder management</td>
+            <td>2021</td>
+          </tr>
+          <tr>
+            <td>⚠️ Risk Management (Cum Laude)</td>
+            <td>Provisio Training College</td>
+            <td>Risk identification, assessment and mitigation frameworks</td>
+            <td>2021</td>
+          </tr>
+          <tr>
+            <td>✅ ISO 9001:2015 QMS Executive Awareness</td>
+            <td>ISO-Q Consulting</td>
+            <td>Quality management systems, process compliance</td>
+            <td>2021</td>
+          </tr>
+          <tr>
+            <td>🌱 Green Entrepreneurship</td>
+            <td>J.P. Morgan / GIBS</td>
+            <td>Sustainable business, social innovation, entrepreneurship</td>
+            <td>2019</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── SELECTED PROJECTS ─────────────────────────────── -->
+    <div class="rs">
+      <div class="rs-head">
+        <span class="rs-icon">◆</span>
+        <span class="rs-title">Selected Projects</span>
+        <div class="rs-line"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="sc-block" style="border-top:2px solid var(--pink);">
+          <div class="sc-head">UL Optometry Clinic System</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.75;">C# / .NET MAUI + Supabase · LDIL Final Project · Parliamentary Committee Showcase · Apr 2026 · 4 user roles · 15 DB tables · PostgreSQL RLS · 14-service MVVM</div>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--red);">
+          <div class="sc-head" style="color:var(--red);">TenderShield SA</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.75;">React + Claude Sonnet API · itweb Security Summit Hackathon · AI fraud detection against 7 SA regulatory frameworks (PPPFA, PFMA, B-BBEE, POPIA…)</div>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--purple);">
+          <div class="sc-head" style="color:var(--purple);">StealthMode — Static Context Engine</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.75;">Java + Gemini API + LangChain4j + Lucene · Offline AI coding assistant for restricted lab environments · ADB cellular tunnel · USB-portable deployment</div>
+        </div>
+        <div class="sc-block" style="border-top:2px solid var(--blue);">
+          <div class="sc-head" style="color:var(--blue);">NowNow Courier System</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.75;">Java EE + MySQL + GlassFish · TUT Academic · 3-tier MVC · 3 user portals · real-time tracking · PreparedStatement-only SQL · chatbot integration</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;text-align:center;">
+        <a href="projects.html" class="btn btn-outline" style="font-size:12.5px;">view all 7 projects with full technical documentation →</a>
+      </div>
+    </div>
+
+    <!-- ── REFERENCES ────────────────────────────────────── -->
+    <div class="rs" style="padding-bottom:3rem;">
+      <div class="rs-head">
+        <span class="rs-icon">◎</span>
+        <span class="rs-title">References</span>
+        <div class="rs-line"></div>
+      </div>
+      <div class="t-block" style="font-size:13px;color:var(--muted);text-align:center;padding:1.5rem;">
+        <span style="color:var(--pink);">*</span> Excellent professional and academic references available upon request. <span style="color:var(--pink);">*</span>
+      </div>
+    </div>
+
+  </div><!-- /resume-body -->
+
+  <div class="print-note">
+    This resume is browser-printable to PDF — use the Download / Print PDF button above, or Ctrl/Cmd + P.
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <span>© 2026 Kgaugelo Nkosazana Mphelo &nbsp;·&nbsp; <span style="color:var(--pink);">kgaugelo@portfolio:~/resume$</span></span>
+  <span>
+    <a href="index.html">home</a> &nbsp;·&nbsp;
+    <a href="projects.html">projects</a> &nbsp;·&nbsp;
+    <a href="mailto:kgaugelomphelo@gmail.com">email</a> &nbsp;·&nbsp;
+    <a href="https://github.com/MsLotusFlowerBomb" target="_blank" rel="noopener">github</a>
+  </span>
+</footer>
+
+</body>
+</html>

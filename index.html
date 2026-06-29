@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kgaugelo Mphelo — Cybersecurity & Software Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── INDEX-SPECIFIC ── */
+
+/* BOOT */
+#boot {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--void);
+  padding: 80px 10vw 4rem;
+  overflow: hidden;
+  display: flex; align-items: flex-start;
+}
+#boot-inner { width: 100%; max-width: 820px; }
+.bl { font-size: 13px; line-height: 1.95; opacity: 0; }
+.bl-pk  { color: var(--pink); }
+.bl-pu  { color: var(--purple); }
+.bl-bl  { color: var(--blue); }
+.bl-am  { color: var(--amber); }
+.bl-wh  { color: var(--white); }
+.bl-mu  { color: var(--muted); }
+.bl-fa  { color: var(--faint); }
+#boot-cursor { display:inline-block; width:8px; height:14px; background:var(--pink); vertical-align:middle; animation:blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+#boot.boot-out { animation: bootFade 0.65s ease forwards; }
+@keyframes bootFade { to { opacity:0; pointer-events:none; } }
+
+/* HERO */
+#hero {
+  min-height: calc(100vh - 52px);
+  display: flex; align-items: center;
+  padding: 80px 10vw;
+  max-width: none;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+/* Subtle scanlines — the signature ambient texture */
+#hero::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,45,120,0.018) 2px,rgba(255,45,120,0.018) 4px);
+}
+.hero-inner { position:relative; z-index:1; max-width:840px; }
+.hero-eyebrow {
+  font-size:12px; color:var(--muted);
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:1.25rem;
+}
+.hero-eyebrow .pk { color:var(--pink); font-weight:700; }
+.hero-name {
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+.hero-name em { font-style:normal; color:var(--pink); }
+.hero-role {
+  margin-top:1rem;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  color: var(--muted);
+  letter-spacing:0.01em;
+}
+.hero-role .hi { color:var(--pink); font-weight:600; }
+.hero-role .hi2 { color:var(--blue); }
+.hero-tagline {
+  margin-top:1.5rem;
+  font-size:13px;
+  color:var(--muted);
+  max-width:600px;
+  line-height:1.9;
+  border-left:2px solid var(--pink);
+  padding-left:1.1rem;
+}
+.hero-badges { display:flex; flex-wrap:wrap; gap:8px; margin-top:1.5rem; }
+.hero-cta { display:flex; flex-wrap:wrap; gap:12px; margin-top:2rem; }
+
+/* Corner stat cluster */
+.hero-stats {
+  position:absolute; bottom:3rem; right:10vw;
+  display:grid; grid-template-columns: 1fr 1fr; gap:8px;
+}
+.hs-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:6px; padding:10px 14px; text-align:center;
+}
+.hs-num { font-size:1.3rem; font-weight:700; color:var(--pink); }
+.hs-label { font-size:9.5px; color:var(--faint); letter-spacing:0.05em; text-transform:uppercase; margin-top:1px; }
+
+/* ABOUT */
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;
+}
+@media(max-width:700px){ .about-grid{ grid-template-columns:1fr; } }
+
+/* PROJECTS GRID */
+.proj-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:1rem;
+}
+.p-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:1.25rem 1.5rem;
+  display:flex; flex-direction:column; gap:10px;
+  transition:border-color 0.2s, transform 0.2s;
+  text-decoration:none; color:inherit;
+  position:relative; overflow:hidden;
+}
+.p-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.p-card.flag {
+  border-color:rgba(255,45,120,0.35);
+}
+.p-card.flag::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--pink);
+}
+.p-card.sec { border-color:rgba(255,83,112,0.22); }
+.p-card.sec:hover { border-color:rgba(255,83,112,0.5); }
+.p-card.ai { border-color:rgba(198,120,221,0.22); }
+.p-card.ai:hover { border-color:rgba(198,120,221,0.5); }
+.p-card.pending { border-style:dashed; opacity:0.8; }
+
+.pc-top { display:flex; align-items:center; gap:8px; justify-content:space-between; }
+.pc-icon { font-size:18px; width:36px; height:36px; background:var(--card); border:1px solid var(--border); border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pc-pill {
+  font-size:9.5px; padding:2px 9px; border-radius:20px;
+  font-weight:700; letter-spacing:0.05em; text-transform:uppercase; border:1px solid;
+}
+.pill-pink   { color:var(--pink);   background:var(--pink-muted);   border-color:rgba(255,45,120,0.3); }
+.pill-red    { color:var(--red);    background:var(--red-muted);    border-color:rgba(255,83,112,0.3); }
+.pill-blue   { color:var(--blue);   background:var(--blue-muted);   border-color:rgba(0,180,255,0.3); }
+.pill-purple { color:var(--purple); background:var(--purple-muted); border-color:rgba(198,120,221,0.3); }
+.pill-muted  { color:var(--muted);  background:rgba(139,148,158,0.1); border-color:rgba(139,148,158,0.2); }
+.pill-amber  { color:var(--amber);  background:var(--amber-muted);  border-color:rgba(240,160,80,0.3); }
+
+.pc-name { font-size:14px; font-weight:700; color:var(--white); }
+.pc-desc { font-size:11.5px; color:var(--muted); line-height:1.7; }
+.parl-note {
+  font-size:10.5px; color:var(--amber); background:var(--amber-muted);
+  border:1px solid rgba(240,160,80,0.25); border-radius:4px;
+  padding:4px 10px; display:inline-flex; align-items:center; gap:4px;
+}
+.pc-footer {
+  display:flex; gap:10px; margin-top:auto; padding-top:8px;
+  border-top:1px solid var(--border); align-items:center; justify-content:space-between;
+}
+.pc-link { font-size:11px; color:var(--muted); text-decoration:none; transition:color 0.15s; display:flex; align-items:center; gap:3px; }
+.pc-link:hover { color:var(--pink); }
+.pc-ctx { font-size:10.5px; color:var(--faint); }
+
+/* SKILLS */
+.skills-outer { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+@media(max-width:700px){ .skills-outer{ grid-template-columns:1fr; } }
+
+.json-block {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:1.25rem 1.5rem;
+  font-size:12.5px; line-height:2.1;
+}
+.jb  { color:var(--muted); }
+.jk  { color:var(--blue); }
+.js  { color:var(--pink); }
+.js2 { color:var(--purple); }
+.js3 { color:var(--amber); }
+.jc  { color:var(--faint); font-style:italic; }
+
+.sbar-group { display:flex; flex-direction:column; gap:10px; }
+.sbar-row { display:flex; align-items:center; gap:10px; }
+.sbar-lbl { font-size:12px; color:var(--white); width:145px; flex-shrink:0; }
+.sbar-track { flex:1; height:3px; background:var(--border2); border-radius:2px; overflow:hidden; }
+.sbar-fill { height:100%; border-radius:2px; transform:scaleX(0); transform-origin:left; transition:transform 1.3s cubic-bezier(0.4,0,0.2,1); }
+.sbar-fill.on { transform:scaleX(1); }
+.f-pk { background:var(--pink); }
+.f-pu { background:var(--purple); }
+.f-bl { background:var(--blue); }
+.sbar-pct { font-size:10.5px; color:var(--muted); width:32px; text-align:right; flex-shrink:0; }
+
+/* ACHIEVEMENTS TIMELINE */
+.tl { display:flex; flex-direction:column; }
+.tl-item { display:grid; grid-template-columns:130px 1fr; gap:0 1.5rem; padding:1.25rem 0; border-bottom:1px solid var(--border); }
+.tl-item:last-child { border-bottom:none; }
+@media(max-width:600px){ .tl-item{ grid-template-columns:1fr; gap:4px; } }
+.tl-date { font-size:11px; color:var(--muted); padding-top:2px; }
+.tl-dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; vertical-align:middle; flex-shrink:0; }
+.d-pk { background:var(--pink); }
+.d-am { background:var(--amber); }
+.d-bl { background:var(--blue); }
+.d-pu { background:var(--purple); }
+.tl-head { font-size:13.5px; font-weight:600; color:var(--white); margin-bottom:4px; }
+.tl-body { font-size:12px; color:var(--muted); line-height:1.75; }
+
+/* CERTS GRID */
+.cert-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin-top:2rem; }
+.cert-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; padding:0.9rem 1.1rem;
+  display:flex; align-items:flex-start; gap:10px;
+}
+.cert-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+.cert-name { font-size:12.5px; font-weight:600; color:var(--white); line-height:1.4; }
+.cert-org  { font-size:11px; color:var(--muted); margin-top:2px; }
+.cert-yr   { font-size:10px; color:var(--pink); margin-top:4px; font-weight:600; }
+
+/* CONTACT TERMINAL */
+.ct-shell {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:8px; overflow:hidden; max-width:600px;
+}
+.ct-bar {
+  background:var(--card); border-bottom:1px solid var(--border);
+  padding:10px 16px; display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--muted);
+}
+.ct-dot { width:10px; height:10px; border-radius:50%; }
+.ct-body { padding:1.5rem; }
+.ct-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:1rem; font-size:13px; }
+.ct-prompt { color:var(--pink); flex-shrink:0; font-weight:700; }
+.ct-val { color:var(--white); }
+.ct-val a { color:var(--blue); text-decoration:none; }
+.ct-val a:hover { color:var(--pink); text-decoration:underline; }
+.ct-sub { padding-left:18px; margin-top:-8px; margin-bottom:1rem; }
+.ct-cursor-row { display:flex; align-items:center; gap:10px; margin-top:1rem; }
+
+/* MAIN HIDDEN UNTIL BOOT DONE */
+#main { opacity:0; transition:opacity 0.6s ease; }
+#main.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<!-- ══ BOOT SCREEN ══════════════════════════════════════════ -->
+<div id="boot" aria-hidden="true">
+  <div id="boot-inner">
+    <div id="boot-cursor"></div>
+  </div>
+</div>
+
+<!-- ══ NAV ═════════════════════════════════════════════════ -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <span class="nav-prompt">kgaugelo@portfolio:~$</span>
+  <div class="nav-links">
+    <a href="index.html" class="active">home</a>
+    <a href="projects.html">projects</a>
+    <a href="resume.html">resume</a>
+  </div>
+  <div class="nav-right">
+    <div class="status-dot" aria-hidden="true"></div>
+    <span class="status-text">open to opportunities</span>
+  </div>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════ -->
+<div id="main" role="main">
+
+  <!-- HERO ────────────────────────────────────────────────── -->
+  <section id="hero" aria-labelledby="hero-name" style="border-bottom:1px solid var(--border);">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="pk">></span> boot complete &mdash; portfolio v2026.06
+        <span style="color:var(--pink);font-size:10px;"> [ OK ]</span>
+      </div>
+
+      <h1 class="hero-name" id="hero-name">
+        Kgaugelo<br><em>Nkosazana Mphelo</em>
+      </h1>
+
+      <p class="hero-role">
+        <span class="hi">Cybersecurity</span>
+        &nbsp;·&nbsp;
+        <span class="hi2">Software Development</span>
+        &nbsp;·&nbsp; AI Integration
+      </p>
+
+      <p class="hero-tagline">
+        Final-year Computer Science student at TUT &amp; LDIL Cohort Representative.
+        Building secure, scalable systems — from a clinical platform presented to Parliament
+        to AI-powered procurement fraud detection. 8+ years of commercial leadership
+        behind every architecture decision.
+      </p>
+
+      <div class="hero-badges">
+        <span class="badge badge-red"> CompTIA Security+</span>
+        <span class="badge badge-pink">LDIL Cohort Representative</span>
+        <span class="badge badge-amber">Wired4Women Top Tech Student Finalist</span>
+        <span class="badge badge-amber">TUT Best Computer Science Student · 2024 · 2025</span>
+        <span class="badge badge-blue">Microsoft AI Fluency</span>
+        <span class="badge badge-purple">Parliamentary Presenter · Apr 2026</span>
+      </div>
+
+      <div class="hero-cta">
+        <a href="projects.html" class="btn btn-primary">view projects &rarr;</a>
+        <a href="resume.html" class="btn btn-outline">view resume</a>
+        <a href="https://github.com/MsLotusFlowerBomb" class="btn btn-outline" target="_blank" rel="noopener">github ↗</a>
+      </div>
+    </div>
+
+    <div class="hero-stats" aria-hidden="true">
+      <div class="hs-card"><div class="hs-num">7</div><div class="hs-label">Projects</div></div>
+      <div class="hs-card"><div class="hs-num">7</div><div class="hs-label">Certifications</div></div>
+      <div class="hs-card"><div class="hs-num">8+</div><div class="hs-label">Yrs Leadership</div></div>
+      <div class="hs-card"><div class="hs-num" style="color:var(--amber);">R20M</div><div class="hs-label">Contracts Led</div></div>
+    </div>
+  </section>
+
+  <!-- ABOUT ───────────────────────────────────────────────── -->
+  <section id="about" aria-labelledby="about-title" style="max-width:none; padding:80px 10vw;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <div class="sec-eyebrow">cat whoami.txt</div>
+      <h2 class="sec-title" id="about-title" style="margin-bottom:2rem;">About <span class="acc">Me</span></h2>
+
+      <div class="about-grid">
+        <div class="t-block">
+          <div class="t-label"># profile</div>
+          <div class="kv"><span class="kk">name:</span><span>"Kgaugelo Nkosazana Mphelo"</span></div>
+          <div class="kv"><span class="kk">alias:</span><span>"Kay"</span></div>
+          <div class="kv"><span class="kk">location:</span><span>"Johannesburg &amp; Polokwane, ZA"</span></div>
+          <div class="kv"><span class="kk">institution:</span><span>"Tshwane University of Technology"</span></div>
+          <div class="kv"><span class="kk">degree:</span><span>"National Diploma, Computer Science"</span></div>
+          <div class="kv"><span class="kk">study_year:</span><span style="color:var(--pink);">"Final Year (2024–2027)"</span></div>
+          <div class="kv"><span class="kk">ldil_role:</span><span>"Cohort Representative, 2025–2026"</span></div>
+          <div class="kv"><span class="kk">github:</span><span><a href="https://github.com/MsLotusFlowerBomb" target="_blank" rel="noopener">MsLotusFlowerBomb ↗</a></span></div>
+          <div class="kv"><span class="kk">LinkedIn:</span><span><a href="https://linkedin.com/in/kgaugelomphelo" target="_blank" rel="noopener">kgaugelomphelo ↗</a></span></div>
+          <div class="kv"><span class="kk">email:</span><span><a href="mailto:kgaugelomphelo@gmail.com">kgaugelomphelo@gmail.com</a></span></div>
+          <div class="kv"><span class="kk">primary_target:</span><span style="color:var(--red);">"Cybersecurity roles"</span></div>
+          <div class="kv"><span class="kk">secondary_target:</span><span style="color:var(--blue);">"Software Development"</span></div>
+          <div class="kv-comment"># Languages: English (Fluent) · Sepedi (Fluent)</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="t-block">
+            <div class="t-label"># background</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.85;">
+              Entrepreneur-turned-technologist with over <span style="color:var(--amber);">8 years in commercial leadership</span> — including founding a multidisciplinary consulting firm that reached <span style="color:var(--amber);">R1M revenue in year one</span> and spearheading bids worth over <span style="color:var(--amber);">R20M in contracts</span>.
+            </p>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.85;margin-top:0.75rem;">
+              J.P. Morgan / GIBS Green Entrepreneurship alumna. Built a solar energy startup serving low-income communities in Zimbabwe before pivoting fully into tech. That social-impact lens shapes every system I build.
+            </p>
+          </div>
+          <div class="t-block">
+            <div class="t-label"># currently active</div>
+            <div class="kv" style="color:var(--pink);font-size:12px;"><span class="kk">[running]</span><span>TUT National Diploma, Computer Science</span></div>
+            <div class="kv" style="color:var(--pink);font-size:12px;"><span class="kk">[complete]</span><span>LDIL Software Development Programme (NQF 6)</span></div>
+            <div class="kv" style="color:var(--blue);font-size:12px;"><span class="kk">[completed]</span><span>ALX AI Programme</span></div>
+            <div class="kv" style="color:var(--muted);font-size:12px;"><span class="kk">[pending]</span><span>CTF Writeup Publication</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS ───────────────────────────────────── -->
+  <section id="projects-preview" aria-labelledby="proj-title" style="max-width:none; padding:80px 10vw; border-bottom:1px solid var(--border);">
+    <div style="max-width:1100px; margin:0 auto;">
+      <div class="sec-eyebrow">ls -la projects/ --sort=impact</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h2 class="sec-title" id="proj-title">Featured <span class="acc">Projects</span></h2>
+          <p class="sec-sub"># 7 projects · cybersecurity emphasis · full technical documentation available</p>
+        </div>
+        <a href="projects.html" class="btn btn-outline" style="font-size:12px;padding:7px 16px;">all projects →</a>
+      </div>
+
+      <div class="proj-grid">
+
+        <!-- UL OPTOMETRY -->
+        <a href="projects.html#optometry" class="p-card flag" aria-label="UL Optometry Clinic System project">
+          <div class="pc-top">
+            <div class="pc-icon">🏥</div>
+            <span class="pc-pill pill-pink">★ Flagship</span>
+          </div>
+          <div class="pc-name">UL Optometry Clinic System</div>
+          <div class="pc-desc">Cross-platform clinical management — C# / .NET MAUI + Supabase. Four user roles, 15 database tables with PostgreSQL Row-Level Security, supervisor sign-off workflows, audit logging, PDF generation.</div>
+          <div class="parl-note">★ Presented to Parliamentary Portfolio Committee · Apr 2026</div>
+          <div class="tags" style="margin-top:4px;">
+            <span class="tag">C# · .NET MAUI</span><span class="tag">Supabase</span><span class="tag">RBAC</span><span class="tag">RLS</span><span class="tag">MVVM</span>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-link">view details ↗</span>
+            <span class="pc-ctx">LDIL Final Project</span>
+          </div>
+        </a>
+
+        <!-- TENDERSHIELD -->
+        <a href="projects.html#tendershield" class="p-card sec" aria-label="TenderShield SA project">
+          <div class="pc-top">
+            <div class="pc-icon">🛡️</div>
+            <span class="pc-pill pill-red">Cybersecurity</span>
+          </div>
+          <div class="pc-name">TenderShield SA</div>
+          <div class="pc-desc">AI-powered procurement fraud detection. Claude Sonnet API analyses tenders against seven SA regulatory frameworks — PPPFA, PFMA, MFMA, B-BBEE, CIDB, CSD, POPIA — in real time.</div>
+          <div class="tags" style="margin-top:4px;">
+            <span class="tag">React</span><span class="tag">Claude API</span><span class="tag">Supabase</span><span class="tag">POPIA</span><span class="tag">B-BBEE</span>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-link">view details ↗</span>
+            <span class="pc-ctx">itweb Security Summit Hackathon 2026</span>
+          </div>
+        </a>
+
+        <!-- STEALTHMODE -->
+        <a href="projects.html#stealthmode" class="p-card ai" aria-label="StealthMode SCE project">
+          <div class="pc-top">
+            <div class="pc-icon">⚡</div>
+            <span class="pc-pill pill-purple">AI · Opsec</span>
+          </div>
+          <div class="pc-name">StealthMode — Static Context Engine</div>
+          <div class="pc-desc">Offline AI coding assistant engineered for zero-internet university labs. Gemini API via ADB tunnel, LangChain4j, Apache Lucene, course-specific knowledge base in a self-contained deployment.</div>
+          <div class="tags" style="margin-top:4px;">
+            <span class="tag">Java</span><span class="tag">Gemini API</span><span class="tag">LangChain4j</span><span class="tag">Lucene</span><span class="tag">GlassFish</span>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-link">view details ↗</span>
+            <span class="pc-ctx">Independent</span>
+          </div>
+        </a>
+
+        <!-- NOWNOW -->
+        <a href="projects.html#nownow" class="p-card" aria-label="NowNow courier project">
+          <div class="pc-top">
+            <div class="pc-icon">📦</div>
+            <span class="pc-pill pill-blue">Full Stack</span>
+          </div>
+          <div class="pc-name">NowNow Courier System</div>
+          <div class="pc-desc">Uber-style 3-tier courier platform in Java EE — Customer, Driver, Admin portals; real-time tracking; PreparedStatement-only SQL; GlassFish container security; chatbot integration.</div>
+          <div class="tags" style="margin-top:4px;">
+            <span class="tag">Java EE</span><span class="tag">JSP</span><span class="tag">MySQL</span><span class="tag">MVC</span><span class="tag">Maven</span>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-link">view details ↗</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <a href="projects.html" class="btn btn-outline">view all 7 projects →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS ─────────────────────────────────────────────── -->
+  <section id="skills" aria-labelledby="skills-title" style="max-width:none;padding:80px 10vw;border-bottom:1px solid var(--border);">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="sec-eyebrow">cat skills.json</div>
+      <h2 class="sec-title" id="skills-title" style="margin-bottom:2rem;">Technical <span class="acc">Skills</span></h2>
+
+      <div class="skills-outer">
+        <div class="json-block" aria-label="Skills as JSON">
+<span class="jb">{</span>
+  <span class="jk">"cybersecurity"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js">"CompTIA Security+"</span><span class="jb">,</span>
+    <span class="js">"Risk Mitigation &amp; Compliance"</span><span class="jb">,</span>
+    <span class="js">"RBAC &amp; PostgreSQL RLS"</span><span class="jb">,</span>
+    <span class="js">"POPIA / PFMA / B-BBEE"</span><span class="jb">,</span>
+    <span class="js">"Fraud Detection AI"</span><span class="jb">,</span>
+    <span class="js">"CTF (writeups pending)"</span><span class="jb">,</span>
+    <span class="js">"Audit Logging"</span>
+  <span class="jb">]</span><span class="jb">,</span>
+
+  <span class="jk">"languages"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js2">"C#"</span><span class="jb">,</span> <span class="js2">"Java"</span><span class="jb">,</span>
+    <span class="js2">"Python"</span><span class="jb">,</span> <span class="js2">"JavaScript"</span><span class="jb">,</span>
+    <span class="js2">"SQL"</span><span class="jb">,</span> <span class="js2">"HTML5/CSS3"</span>
+  <span class="jb">]</span><span class="jb">,</span>
+
+  <span class="jk">"frameworks"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js3">".NET MAUI"</span><span class="jb">,</span> <span class="js3">"React"</span><span class="jb">,</span>
+    <span class="js3">"Jakarta EE"</span><span class="jb">,</span> <span class="js3">"Bootstrap 5"</span>
+  <span class="jb">]</span><span class="jb">,</span>
+
+  <span class="jk">"cloud_data"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js">"Supabase"</span><span class="jb">,</span> <span class="js">"PostgreSQL"</span><span class="jb">,</span>
+    <span class="js">"MySQL"</span><span class="jb">,</span> <span class="js">"Apache Derby"</span>
+  <span class="jb">]</span><span class="jb">,</span>
+
+  <span class="jk">"ai_integration"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js">"Claude API"</span><span class="jb">,</span> <span class="js">"Gemini API"</span><span class="jb">,</span>
+    <span class="js">"LangChain4j"</span><span class="jb">,</span> <span class="js">"Prompt Engineering"</span><span class="jb">,</span>
+    <span class="js">"Agentic AI Workflows"</span>
+  <span class="jb">]</span><span class="jb">,</span>
+
+  <span class="jk">"process"</span><span class="jb">:</span> <span class="jb">[</span>
+    <span class="js">"Agile/Scrum"</span><span class="jb">,</span> <span class="js">"Git/GitHub"</span><span class="jb">,</span>
+    <span class="js">"SDLC"</span><span class="jb">,</span> <span class="js">"ISO 9001:2015"</span>
+  <span class="jb">]</span>
+<span class="jb">}</span>
+        </div>
+
+        <div class="t-block">
+          <div class="t-label"># proficiency (self-assessed)</div>
+          <div class="sbar-group" id="skill-bars">
+            <div class="sbar-row"><span class="sbar-lbl">Security / CTF</span><div class="sbar-track"><div class="sbar-fill f-pk" style="width:85%"></div></div><span class="sbar-pct">85%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">C# / .NET MAUI</span><div class="sbar-track"><div class="sbar-fill f-pk" style="width:88%"></div></div><span class="sbar-pct">88%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">Java / Java EE</span><div class="sbar-track"><div class="sbar-fill f-pk" style="width:84%"></div></div><span class="sbar-pct">84%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">SQL / PostgreSQL</span><div class="sbar-track"><div class="sbar-fill f-pk" style="width:82%"></div></div><span class="sbar-pct">82%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">AI / LLM Integration</span><div class="sbar-track"><div class="sbar-fill f-pu" style="width:80%"></div></div><span class="sbar-pct">80%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">React / JS</span><div class="sbar-track"><div class="sbar-fill f-bl" style="width:75%"></div></div><span class="sbar-pct">75%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">Python</span><div class="sbar-track"><div class="sbar-fill f-pu" style="width:70%"></div></div><span class="sbar-pct">70%</span></div>
+            <div class="sbar-row"><span class="sbar-lbl">HTML5 / CSS3</span><div class="sbar-track"><div class="sbar-fill f-bl" style="width:78%"></div></div><span class="sbar-pct">78%</span></div>
+          </div>
+          <div class="kv-comment"># Architecture: MVVM · 3-Tier MVC · DAO Pattern · REST APIs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS ────────────────────────────────────────── -->
+  <section id="achievements" aria-labelledby="ach-title" style="max-width:none;padding:80px 10vw;border-bottom:1px solid var(--border);">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="sec-eyebrow">cat achievements.log</div>
+      <h2 class="sec-title" id="ach-title" style="margin-bottom:2rem;">Recognition & <span class="acc">Achievements</span></h2>
+
+      <div class="tl" role="list">
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-pk"></span>Apr 2026</div>
+          <div>
+            <div class="tl-head">Parliamentary Presentation — National Portfolio Committee</div>
+            <div class="tl-body">UL Optometry Clinic Management System (LDIL) presented to the Parliamentary Portfolio Committee on Communications and Digital Technologies. Stakeholder validation at the highest institutional level in South Africa.</div>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-pk"></span>2025–2026</div>
+          <div>
+            <div class="tl-head">LDIL Cohort Representative</div>
+            <div class="tl-body">Elected by peers and LDIL programme leadership to represent the software development cohort of the Samsung-backed Limpopo Digital Innovation Lab. Liaison between trainees and programme management; coordinates peer mentorship and collaborative sessions.</div>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-am"></span>2025</div>
+          <div>
+            <div class="tl-head">Wired4Women Top Tech Student Finalist</div>
+            <div class="tl-body">Nationally recognised finalist in the Top Tech Student category (Openserve-sponsored) at the 2025 Wired4Women Awards — run by the Wired4Women Tech Forum with ITWeb Brainstorm and Telkom. One of five finalists selected from hundreds of nominations nationally.</div>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-pk"></span>2025</div>
+          <div>
+            <div class="tl-head">itweb Security Summit Hackathon — TenderShield SA</div>
+            <div class="tl-body">Built TenderShield SA from scratch during the hackathon — a complete AI fraud detection platform integrating Claude Sonnet API against seven South African regulatory frameworks, deployed on Vercel.</div>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-bl"></span>2024 & 2025</div>
+          <div>
+            <div class="tl-head">Best First-Year Student Achiever — TUT</div>
+            <div class="tl-body">Awarded top academic honours in the first year of Computer Science at TUT's Department of Information and Communication Technology.</div>
+          </div>
+        </div>
+        <div class="tl-item" role="listitem">
+          <div class="tl-date"><span class="tl-dot d-am"></span>2019</div>
+          <div>
+            <div class="tl-head">J.P. Morgan / GIBS Green Entrepreneurship Programme</div>
+            <div class="tl-body">Selected for the prestigious J.P. Morgan and GIBS Green Entrepresneurship programme. Founded a startup delivering sustainable solar energy solutions for low-income communities in Zimbabwe — integrating technology and social impact.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-eyebrow" style="margin-top:2.5rem;">ls certs/</div>
+      <div class="cert-grid">
+        <div class="cert-card"><div class="cert-icon">🔐</div><div><div class="cert-name">CompTIA Security+</div><div class="cert-org">CompTIA</div><div class="cert-yr">2021</div></div></div>
+        <div class="cert-card"><div class="cert-icon">🤖</div><div><div class="cert-name">AI Fluency</div><div class="cert-org">Microsoft</div><div class="cert-yr">Jul 2025</div></div></div>
+        <div class="cert-card"><div class="cert-icon">🐍</div><div><div class="cert-name">Python (MTA)</div><div class="cert-org">Microsoft</div><div class="cert-yr">2021</div></div></div>
+        <div class="cert-card"><div class="cert-icon">📋</div><div><div class="cert-name">Project Management</div><div class="cert-org">Project Management SA</div><div class="cert-yr">2021</div></div></div>
+        <div class="cert-card"><div class="cert-icon">⚠️</div><div><div class="cert-name">Risk Management (Cum Laude)</div><div class="cert-org">Provisio Training College</div><div class="cert-yr">2021</div></div></div>
+        <div class="cert-card"><div class="cert-icon">✅</div><div><div class="cert-name">ISO 9001:2015 QMS</div><div class="cert-org">ISO-Q Consulting</div><div class="cert-yr">2021</div></div></div>
+        <div class="cert-card"><div class="cert-icon">🌱</div><div><div class="cert-name">Green Entrepreneurship</div><div class="cert-org">J.P. Morgan / GIBS</div><div class="cert-yr">2019</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT ─────────────────────────────────────────────── -->
+  <section id="contact" aria-labelledby="contact-title" style="max-width:none;padding:80px 10vw;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="sec-eyebrow">./contact.sh --roles="cybersecurity,software-dev"</div>
+      <h2 class="sec-title" id="contact-title" style="margin-bottom:2rem;">Get In <span class="acc">Touch</span></h2>
+
+      <div class="ct-shell">
+        <div class="ct-bar">
+          <div class="ct-dot" style="background:#FF5F57;"></div>
+          <div class="ct-dot" style="background:#FEBC2E;"></div>
+          <div class="ct-dot" style="background:#28C840;"></div>
+          <span style="margin-left:8px;">bash — contact@kgaugelo-mphelo</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-row"><span class="ct-prompt">$</span><span class="ct-val">echo $EMAIL</span></div>
+          <div class="ct-sub"><span class="ct-val"><a href="mailto:kgaugelomphelo@gmail.com">kgaugelomphelo@gmail.com</a></span></div>
+
+          <div class="ct-row"><span class="ct-prompt">$</span><span class="ct-val">echo $PHONE</span></div>
+          <div class="ct-sub"><span class="ct-val">+27 76 728 8763</span></div>
+
+          <div class="ct-row"><span class="ct-prompt">$</span><span class="ct-val">open github.com/MsLotusFlowerBomb</span></div>
+          <div class="ct-sub"><span class="ct-val"><a href="https://github.com/MsLotusFlowerBomb" target="_blank" rel="noopener">github.com/MsLotusFlowerBomb ↗</a></span></div>
+
+          <div class="ct-row"><span class="ct-prompt">$</span><span class="ct-val">open linkedin.com/in/kgaugelomphelo</span></div>
+          <div class="ct-sub"><span class="ct-val"><a href="https://linkedin.com/in/kgaugelomphelo" target="_blank" rel="noopener">linkedin.com/in/kgaugelomphelo ↗</a></span></div>
+          
+          <div class="ct-row"><span class="ct-prompt">$</span><span class="ct-val">cat open_to.txt</span></div>
+          <div class="ct-sub" style="line-height:2;">
+            <span class="ct-val" style="color:var(--red);">→ Cybersecurity roles (primary)</span><br>
+            <span class="ct-val" style="color:var(--blue);">→ Software Development roles</span><br>
+            <span class="ct-val" style="color:var(--muted);">→ Internships · Graduate programmes · Full-time</span><br>
+            <span class="ct-val" style="color:var(--muted);">→ Johannesburg / Polokwane, South Africa</span>
+          </div>
+
+          <div class="ct-cursor-row">
+            <span style="color:var(--pink);font-weight:700;">$</span>
+            <span class="cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>© 2026 Kgaugelo Nkosazana Mphelo &nbsp;·&nbsp; <span style="color:var(--pink);">kgaugelo@portfolio:~$</span></span>
+  <span>
+    <a href="mailto:kgaugelomphelo@gmail.com">email</a> &nbsp;·&nbsp;
+    <a href="https://github.com/MsLotusFlowerBomb" target="_blank" rel="noopener">github</a> &nbsp;·&nbsp;
+    <a href="resume.html">resume</a>
+  </span>
+</footer>
+
+<script>
+(function(){
+  const lines = [
+    { t:'BIOS v2026.06 — Mounting portfolio...', c:'bl-fa', d:0 },
+    { t:'Checking security credentials...', c:'bl-mu', d:200 },
+    { t:'  > CompTIA Security+              [ OK ]', c:'bl-pk', d:380 },
+    { t:'  > Microsoft AI Fluency           [ OK ]', c:'bl-bl', d:540 },
+    { t:'  > ISO 9001:2015 QMS              [ OK ]', c:'bl-mu', d:700 },
+    { t:'', c:'bl-fa', d:820 },
+    { t:'Loading project manifest...', c:'bl-mu', d:940 },
+    { t:'  drwx  ul-optometry-clinic/     [LDIL · PARLIAMENTARY SHOWCASE · APR 2026]', c:'bl-am', d:1080 },
+    { t:'  drwx  tendershield-sa/         [AI · CYBERSECURITY · HACKATHON BUILD]', c:'bl-pk', d:1240 },
+    { t:'  drwx  stealthmode-sce/         [OFFLINE AI · OPERATIONAL SECURITY]', c:'bl-pu', d:1390 },
+    { t:'  drwx  nownow-courier/          [JAVA EE · 3-TIER · FULL STACK]', c:'bl-bl', d:1530 },
+    { t:'  drwx  studentresfinder/        [SECURITY & ADMIN MODULE]', c:'bl-wh', d:1660 },
+    { t:'  drwx  enigma-blog/             [CYBERSECURITY WEB]', c:'bl-wh', d:1780 },
+    { t:'  drwx  ctf-writeups/            [PENDING ORGANISER PERMISSION]', c:'bl-mu', d:1890 },
+    { t:'', c:'bl-fa', d:2010 },
+    { t:'Initialising identity...', c:'bl-mu', d:2130 },
+    { t:'  user:        Kgaugelo Nkosazana Mphelo', c:'bl-wh', d:2250 },
+    { t:'  institution: Tshwane University of Technology (Final Year)', c:'bl-wh', d:2360 },
+    { t:'  role:        Cybersecurity · Software Development', c:'bl-pk', d:2470 },
+    { t:'  programme:   LDIL Cohort Representative · Samsung / UL', c:'bl-bl', d:2580 },
+    { t:'  award:       Wired4Women Top Tech Student Finalist 2025', c:'bl-am', d:2690 },
+    { t:'', c:'bl-fa', d:2800 },
+    { t:'Portfolio ready. Welcome.', c:'bl-pk', d:2920 },
+  ];
+
+  const inner = document.getElementById('boot-inner');
+  const boot  = document.getElementById('boot');
+  const main  = document.getElementById('main');
+
+  // Remove the cursor element to put lines before it
+  const cur = document.getElementById('boot-cursor');
+  inner.removeChild(cur);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    boot.style.display = 'none';
+    main.classList.add('show');
+    animateBars();
+    return;
+  }
+
+  let i = 0;
+  function next() {
+    if (i >= lines.length) {
+      inner.appendChild(cur);
+      setTimeout(() => {
+        boot.classList.add('boot-out');
+        main.classList.add('show');
+        setTimeout(() => { boot.style.display='none'; animateBars(); }, 700);
+      }, 700);
+      return;
+    }
+    const { t, c, d } = lines[i++];
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'bl ' + c;
+      el.textContent = t;
+      el.style.opacity = '0';
+      inner.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.transition = 'opacity 0.12s ease';
+        el.style.opacity = '1';
+      });
+      next();
+    }, d);
+  }
+  next();
+
+  function animateBars() {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.sbar-fill').forEach(f => f.classList.add('on'));
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    const sb = document.getElementById('skill-bars');
+    if (sb) obs.observe(sb);
+  }
+})();
+</script>
+</body>
+</html>
